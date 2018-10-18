@@ -81,6 +81,20 @@ def confirm_sign_up(data, param_mapping):
         pass
 
 
+def forgot_password(data, param_mapping):
+    username = None
+
+    try:
+        username = data['username' if 'username' not in param_mapping else param_mapping['username']]
+    except Exception as Ex:
+        pass
+
+    try:
+        result = actions.forgot_password(username)
+    except CognitoException as ex:
+        pass
+
+
 def validate_request_params(data, required_params):
     invalid_params = []
 
