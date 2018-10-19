@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='django-cognito-authentication',
+    name='django_cognito_authentication',
     version='1.0.0',
     packages=find_packages(),
     url='',

@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django-cognito-authentication.urls'
+ROOT_URLCONF = 'django_cognito_authentication.urls'
 
 TEMPLATES = [
     {
