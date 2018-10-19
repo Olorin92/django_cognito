@@ -13,8 +13,9 @@ class PublicKey(object):
     def __init__(self, pubkey):
         self.exponent = self.base64_to_long(pubkey['e'])
         self.modulus = self.base64_to_long(pubkey['n'])
-        self.pem = self.convert(self.exponent, self.modulus)
+        self.pem = convert(self.exponent, self.modulus)
 
+    @staticmethod
     def int_array_to_long(self, array):
         return int(''.join(['{:02x}'.format(b) for b in array]), 16)
 
@@ -23,7 +24,8 @@ class PublicKey(object):
         _ = base64.urlsafe_b64decode(bytes(data) + b'==')
         return self.int_array_to_long(struct.unpack('%sB' % len(_), _))
 
-    def convert(self, exponent, modulus):
+    @staticmethod
+    def convert(exponent, modulus):
         components = RSAPublicNumbers(exponent, modulus)
         pub = components.public_key(backend=default_backend())
         return pub.public_bytes(
