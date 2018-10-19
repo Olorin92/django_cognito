@@ -1,5 +1,5 @@
-import boto3
 from django.conf import settings
+from authentication.cognito.base import CognitoClient
 
 USER_PASSWORD_FLOW = 'USER_PASSWORD_AUTH'
 REFRESH_TOKEN_FLOW = 'REFRESH_TOKEN'
@@ -15,34 +15,29 @@ POOL_ID = settings.COGNITO_POOL_ID
 AWS_ACCESS_KEY = settings.AWS_ACCESS_KEY
 AWS_SECRET_KEY = settings.AWS_SECRET_KEY
 
-try:
-    CLIENT = boto3.client('cognito-idp', aws_access_key=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
-except Exception as ex:
-    pass
-
 AWS_EXCEPTIONS = (
-    CLIENT.exceptions.AliasExistsException,
-    CLIENT.exceptions.CodeDeliveryFailureException,
-    CLIENT.exceptions.CodeMismatchException,
-    CLIENT.exceptions.ExpiredCodeException,
-    CLIENT.exceptions.InternalErrorException,
-    CLIENT.exceptions.InvalidEmailRoleAccessPolicyException,
-    CLIENT.exceptions.InvalidLambdaResponseException,
-    CLIENT.exceptions.InvalidParameterException,
-    CLIENT.exceptions.InvalidPasswordException,
-    CLIENT.exceptions.InvalidSmsRoleAccessPolicyException,
-    CLIENT.exceptions.InvalidSmsRoleTrustRelationshipException,
-    CLIENT.exceptions.InvalidUserPoolConfigurationException,
-    CLIENT.exceptions.LimitExceededException,
-    CLIENT.exceptions.MFAMethodNotFoundException,
-    CLIENT.exceptions.NotAuthorizedException,
-    CLIENT.exceptions.PasswordResetRequiredException,
-    CLIENT.exceptions.ResourceNotFoundException,
-    CLIENT.exceptions.SoftwareTokenMFANotFoundException,
-    CLIENT.exceptions.TooManyRequestsException,
-    CLIENT.exceptions.UnexpectedLambdaException,
-    CLIENT.exceptions.UserLambdaValidationException,
-    CLIENT.exceptions.UserNotConfirmedException,
-    CLIENT.exceptions.UserNotFoundException,
-    CLIENT.exceptions.UsernameExistsException
+    CognitoClient.client.exceptions.AliasExistsException,
+    CognitoClient.client.exceptions.CodeDeliveryFailureException,
+    CognitoClient.client.exceptions.CodeMismatchException,
+    CognitoClient.client.exceptions.ExpiredCodeException,
+    CognitoClient.client.exceptions.InternalErrorException,
+    CognitoClient.client.exceptions.InvalidEmailRoleAccessPolicyException,
+    CognitoClient.client.exceptions.InvalidLambdaResponseException,
+    CognitoClient.client.exceptions.InvalidParameterException,
+    CognitoClient.client.exceptions.InvalidPasswordException,
+    CognitoClient.client.exceptions.InvalidSmsRoleAccessPolicyException,
+    CognitoClient.client.exceptions.InvalidSmsRoleTrustRelationshipException,
+    CognitoClient.client.exceptions.InvalidUserPoolConfigurationException,
+    CognitoClient.client.exceptions.LimitExceededException,
+    CognitoClient.client.exceptions.MFAMethodNotFoundException,
+    CognitoClient.client.exceptions.NotAuthorizedException,
+    CognitoClient.client.exceptions.PasswordResetRequiredException,
+    CognitoClient.client.exceptions.ResourceNotFoundException,
+    CognitoClient.client.exceptions.SoftwareTokenMFANotFoundException,
+    CognitoClient.client.exceptions.TooManyRequestsException,
+    CognitoClient.client.exceptions.UnexpectedLambdaException,
+    CognitoClient.client.exceptions.UserLambdaValidationException,
+    CognitoClient.client.exceptions.UserNotConfirmedException,
+    CognitoClient.client.exceptions.UserNotFoundException,
+    CognitoClient.client.exceptions.UsernameExistsException
 )

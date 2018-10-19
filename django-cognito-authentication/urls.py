@@ -21,12 +21,12 @@ from django.conf.urls import url
 urlpatterns = [
     # Exclude as not appropriate for this app?
     # path('admin/', admin.site.urls),
-    url(r'^auth/login', views.initiate_auth),
-    url(r'^auth/signup', views.sign_up),
-    url(r'^auth/forgot_password', views.forgot_password),
-    url(r'^auth/confirm_signup', views.confirm_sign_up),
-    url(r'^auth/confirm_login', views.respond_to_auth_challenge),
-    url(r'^auth/confirm_forgot_password', views.confirm_forgot_password)
+    # url(r'^auth/login', views.initiate_auth),
+    # url(r'^auth/signup', views.sign_up),
+    # url(r'^auth/forgot_password', views.forgot_password),
+    # url(r'^auth/confirm_signup', views.confirm_sign_up),
+    # url(r'^auth/confirm_login', views.respond_to_auth_challenge),
+    # url(r'^auth/confirm_forgot_password', views.confirm_forgot_password)
 ]
 
 urlpatterns

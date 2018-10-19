@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='aws_auth',
+    name='django-cognito-authentication',
     version='1.0',
     packages=find_packages(),
     url='',

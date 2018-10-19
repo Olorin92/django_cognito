@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'aws_auth.urls'
+ROOT_URLCONF = 'django-cognito-authentication.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'aws_auth.wsgi.application'
+WSGI_APPLICATION = 'django-cognito-authenticaton.wsgi.application'
 
 
 # Database
@@ -119,12 +119,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'authentication.django_authentication.AWSAuthentication.AWSAuthentication',
-    ),
-}
 
 #########
 # PATHS #

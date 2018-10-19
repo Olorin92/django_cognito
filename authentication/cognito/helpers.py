@@ -1,105 +1,91 @@
 from authentication.cognito import constants, actions
-from authentication.cognito.base import CognitoException
+
+# Collection of methods intended to make the calling of AWS Cognito methods a bit easier. Each method expects both a
+# data parameter (which will be a dictionary of values) and an optional param_mapping parameter - another dictionary
+# which can be used to override the name of expected values in the data dictionary
+
+BAD_DATA_EXCEPTION = "The required parameters were not passed through in the data dictionary"
 
 
 def initiate_auth(data, param_mapping=None):
-    username = None
-    auth_flow = None
     password = None
 
     try:
-        auth_flow = data['auth_flow']
-        username = data['username']
+        auth_flow = parse_parameter(data, param_mapping, 'auth_flow')
+        username = parse_parameter(data, param_mapping, 'username')
 
         if auth_flow == constants.USER_PASSWORD_FLOW:
-            password = data['password']
+            password = parse_parameter(data, param_mapping, 'password')
 
-    except Exception as Ex:
-        pass
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
 
-    try:
-        result = actions.initiate_auth(username, auth_flow, password)
-        return result
-    except CognitoException as ex:
-        pass
+    return actions.initiate_auth(username, auth_flow, password)
 
 
 def respond_to_auth_challenge(data, param_mapping=None):
-    username = None
-    challenge_name = None
-    responses = None
-    session = None
-
     try:
-        username = data['username']
-        challenge_name = data['challenge_name']
-        responses = data['responses']
-        session = data['session']
-    except Exception as Ex:
-        pass
+        username = parse_parameter(data, param_mapping, 'username')
+        challenge_name = parse_parameter(data, param_mapping, 'challenge_name')
+        responses = parse_parameter(data, param_mapping, 'responses')
+        session = parse_parameter(data, param_mapping, 'session')
 
-    try:
-        result = actions.respond_to_auth_challenge(username=username, challenge_name=challenge_name,
-                                                   responses=responses, session=session)
-    except CognitoException as ex:
-        pass
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.respond_to_auth_challenge(username=username, challenge_name=challenge_name,
+                                             responses=responses, session=session)
 
 
 def sign_up(data, param_mapping):
-    username = None
-    password = None
-    user_attributes = None
-
     try:
-        username = data['username']
-        password = data['password']
-        user_attributes= data['user_attributes']
-    except Exception as Ex:
-        pass
+        username = parse_parameter(data, param_mapping, 'username')
+        password = parse_parameter(data, param_mapping, 'password')
+        user_attributes= parse_parameter(data, param_mapping, 'user_attributes')
 
-    try:
-        result = actions.sign_up(username, password, user_attributes)
-    except CognitoException as ex:
-        pass
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.sign_up(username, password, user_attributes)
 
 
 def confirm_sign_up(data, param_mapping):
-    username = None
-    confirmation_code = None
-    force_alias_creation = None
-
     try:
-        username = data['username']
-        password = data['password']
-        force_alias_creation = data['force_alias_creation']
-    except Exception as Ex:
-        pass
+        username = parse_parameter(data, param_mapping, 'username')
+        confirmation_code = parse_parameter(data, param_mapping, 'password')
+        force_alias_creation = parse_parameter(data, param_mapping, 'force_alias_creation')
 
-    try:
-        result = actions.confirm_sign_up(username, confirmation_code, force_alias_creation)
-    except CognitoException as ex:
-        pass
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.confirm_sign_up(username, confirmation_code, force_alias_creation)
 
 
 def forgot_password(data, param_mapping):
-    username = None
-
     try:
-        username = data['username' if 'username' not in param_mapping else param_mapping['username']]
-    except Exception as Ex:
-        pass
+        username = parse_parameter(data, param_mapping, 'username')
 
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.forgot_password(username)
+
+
+def confirm_forgot_password(data, param_mapping):
     try:
-        result = actions.forgot_password(username)
-    except CognitoException as ex:
-        pass
+        username = parse_parameter(data, param_mapping, 'username')
+        new_password = parse_parameter(data, param_mapping, 'new_password')
+        code = parse_parameter(data, param_mapping, 'code')
+
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.confirm_forgot_password(username, code, new_password)
 
 
-def validate_request_params(data, required_params):
-    invalid_params = []
-
-    for param in required_params:
-        if param not in data or not data[param]:
-            invalid_params.append(param)
-
-    return invalid_params if len(invalid_params) > 0 else None
+def parse_parameter(data, param_mapping, param=None):
+    if param_mapping is not None:
+        if param in param_mapping:
+            return data[param_mapping[param]]
+    else:
+        return data[param]
