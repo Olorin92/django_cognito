@@ -1,5 +1,5 @@
 from rest_framework.authentication import BaseAuthentication
-from authentication.base.base_auth import AWSAuthMethods
+from django_cognito_authentication.authentication import AWSAuthMethods
 
 
 # This is utilised by any of the django rest framework views. Currently this is all of the base AWS auth views.

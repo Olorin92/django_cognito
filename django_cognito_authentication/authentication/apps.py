@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class WebConfig(AppConfig):
-    name = 'authentication'
+    name = 'django_cognito_authentication.authentication'

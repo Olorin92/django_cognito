@@ -18,5 +18,5 @@ from django.urls import path, include
 urlpatterns = [
     # Exclude as not appropriate for this app?
     # path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
+    path('auth/', include('django_cognito_authentication.authentication.urls')),
 ]

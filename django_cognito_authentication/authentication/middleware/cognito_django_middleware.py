@@ -1,8 +1,6 @@
 from django.conf import settings
-from django.contrib.auth.models import User, AnonymousUser
-from rest_framework import exceptions
 
-from authentication.base.base_auth import AWSAuthMethods
+from django_cognito_authentication.authentication import AWSAuthMethods
 
 
 # This is utilised from normal Django views. Currently used for anything that requires authentication but isn't

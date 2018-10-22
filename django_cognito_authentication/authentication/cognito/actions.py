@@ -1,9 +1,9 @@
 import json
 from urllib.request import urlopen
 
-from authentication import utils
-from authentication.cognito import constants
-from authentication.cognito.base import CognitoClient, CognitoException
+from django_cognito_authentication.authentication import utils
+from django_cognito_authentication.authentication.cognito import constants
+from django_cognito_authentication.authentication.cognito.base import CognitoClient, CognitoException
 
 
 # Should return an AccessToken and a RefreshToken (with those keys) if successful,

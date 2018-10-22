@@ -1,9 +1,6 @@
-from django.conf import settings
-from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User, AnonymousUser
-from rest_framework import exceptions
 
-from authentication.base.base_auth import AWSAuthMethods
+from django_cognito_authentication.authentication import AWSAuthMethods
 
 # This is utilised when doing username and password validation and calling the authenticate method from
 # django.contrib.auth (currently not actually used?)

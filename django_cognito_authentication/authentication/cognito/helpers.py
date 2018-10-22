@@ -1,4 +1,4 @@
-from authentication.cognito import constants, actions
+from django_cognito_authentication.authentication.cognito import constants, actions
 
 # Collection of methods intended to make the calling of AWS Cognito methods a bit easier. Each method expects both a
 # data parameter (which will be a dictionary of values) and an optional param_mapping parameter - another dictionary

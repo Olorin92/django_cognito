@@ -8,9 +8,9 @@ import json
 import jwt
 from django.contrib.auth.models import User, AnonymousUser
 
-from authentication import utils
-from authentication.cognito import constants, actions
-from authentication.utils import PublicKey
+from django_cognito_authentication.authentication import utils
+from django_cognito_authentication.authentication.cognito import constants, actions
+from django_cognito_authentication.authentication.utils import PublicKey
 
 
 @staticmethod
