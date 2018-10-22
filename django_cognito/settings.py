@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_cognito_authentication.authentication',
+    'django_cognito.authentication',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_cognito_authentication.urls'
+ROOT_URLCONF = 'django_cognito.urls'
 
 TEMPLATES = [
     {
@@ -67,8 +67,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'django_cognito_authentication.wsgi.application'
 
 
 # Database

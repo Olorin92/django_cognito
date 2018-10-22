@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from django_cognito_authentication.authentication import AWSAuthMethods
+from django_cognito.authentication import AWSAuthMethods
 
 
 # This is utilised from normal Django views. Currently used for anything that requires authentication but isn't

@@ -2,8 +2,8 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from django_cognito_authentication.authentication.cognito import helpers
-from django_cognito_authentication.authentication.cognito.base import CognitoException
+from django_cognito.authentication.cognito import helpers
+from django_cognito.authentication.cognito.base import CognitoException
 
 
 @csrf_exempt

@@ -1,1 +1,1 @@
-exclude django_cognito_authentication/local_settings.py
+exclude django_cognito/local_settings.py

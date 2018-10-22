@@ -1,5 +1,5 @@
 from django.conf import settings
-from django_cognito_authentication.authentication.cognito.base import CognitoClient
+from django_cognito.authentication.cognito.base import CognitoClient
 
 USER_PASSWORD_FLOW = 'USER_PASSWORD_AUTH'
 REFRESH_TOKEN_FLOW = 'REFRESH_TOKEN'

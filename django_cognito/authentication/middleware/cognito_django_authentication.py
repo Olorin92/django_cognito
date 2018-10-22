@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, AnonymousUser
 
-from django_cognito_authentication.authentication import AWSAuthMethods
+from django_cognito.authentication import AWSAuthMethods
 
 # This is utilised when doing username and password validation and calling the authenticate method from
 # django.contrib.auth (currently not actually used?)

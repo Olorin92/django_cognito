@@ -13,10 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django_cognito.authentication import views
+from django.conf.urls import url
 
 urlpatterns = [
     # Exclude as not appropriate for this app?
     # path('admin/', admin.site.urls),
-    path('auth/', include('django_cognito_authentication.authentication.urls')),
+    url(r'^login', views.initiate_auth),
+    # url(r'^logout', views.logout),
+    url(r'^signup', views.sign_up),
+    url(r'^forgot_password', views.forgot_password),
+    url(r'^confirm_signup', views.confirm_sign_up),
+    url(r'^confirm_login', views.respond_to_auth_challenge),
+    url(r'^confirm_forgot_password', views.confirm_forgot_password)
 ]

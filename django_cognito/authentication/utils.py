@@ -6,7 +6,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicNumbers
 
-from django_cognito_authentication.authentication.cognito import constants
+from django_cognito.authentication.cognito import constants
 
 
 class PublicKey(object):
