@@ -37,7 +37,7 @@ def respond_to_auth_challenge(data, param_mapping=None):
                                              responses=responses, session=session)
 
 
-def sign_up(data, param_mapping):
+def sign_up(data, param_mapping=None):
     try:
         username = parse_parameter(data, param_mapping, 'username')
         password = parse_parameter(data, param_mapping, 'password')
@@ -49,7 +49,7 @@ def sign_up(data, param_mapping):
     return actions.sign_up(username, password, user_attributes)
 
 
-def confirm_sign_up(data, param_mapping):
+def confirm_sign_up(data, param_mapping=None):
     try:
         username = parse_parameter(data, param_mapping, 'username')
         confirmation_code = parse_parameter(data, param_mapping, 'password')
@@ -61,7 +61,7 @@ def confirm_sign_up(data, param_mapping):
     return actions.confirm_sign_up(username, confirmation_code, force_alias_creation)
 
 
-def forgot_password(data, param_mapping):
+def forgot_password(data, param_mapping=None):
     try:
         username = parse_parameter(data, param_mapping, 'username')
 
@@ -71,7 +71,7 @@ def forgot_password(data, param_mapping):
     return actions.forgot_password(username)
 
 
-def confirm_forgot_password(data, param_mapping):
+def confirm_forgot_password(data, param_mapping=None):
     try:
         username = parse_parameter(data, param_mapping, 'username')
         new_password = parse_parameter(data, param_mapping, 'new_password')

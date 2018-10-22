@@ -30,6 +30,7 @@ def respond_to_auth_challenge(request):
     pass
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def forgot_password(request):
     try:
@@ -42,6 +43,7 @@ def forgot_password(request):
     pass
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def confirm_forgot_password(request):
     try:
