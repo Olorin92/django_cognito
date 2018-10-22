@@ -21,6 +21,7 @@ def initiate_auth(request):
 @require_http_methods(['POST'])
 def respond_to_auth_challenge(request):
     try:
+        data = json.loads(request.body.decode('utf-8'))
         result = helpers.respond_to_auth_challenge(request.data)
 
         return JsonResponse(result, status=200)
