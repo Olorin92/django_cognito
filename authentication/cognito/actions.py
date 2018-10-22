@@ -6,6 +6,8 @@ from authentication.cognito import constants
 from authentication.cognito.base import CognitoClient, CognitoException
 
 
+# Should return an AccessToken and a RefreshToken (with those keys) if successful,
+# otherwise return challenge information if a challenge is required
 def initiate_auth(username, auth_flow, password=None, refresh_token=None, srp_a=None):
     auth_parameters = {'SECRET_HASH': utils.get_cognito_secret_hash(username)}
 

@@ -20,12 +20,10 @@ urlpatterns = [
     # Exclude as not appropriate for this app?
     # path('admin/', admin.site.urls),
     url(r'^login', views.initiate_auth),
-    url(r'^logout', views.logout),
+    # url(r'^logout', views.logout),
     url(r'^signup', views.sign_up),
     url(r'^forgot_password', views.forgot_password),
     url(r'^confirm_signup', views.confirm_sign_up),
     url(r'^confirm_login', views.respond_to_auth_challenge),
     url(r'^confirm_forgot_password', views.confirm_forgot_password)
 ]
-
-urlpatterns

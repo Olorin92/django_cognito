@@ -13,7 +13,7 @@ class PublicKey(object):
     def __init__(self, pubkey):
         self.exponent = self.base64_to_long(pubkey['e'])
         self.modulus = self.base64_to_long(pubkey['n'])
-        self.pem = convert(self.exponent, self.modulus)
+        self.pem = PublicKey.convert(self.exponent, self.modulus)
 
     @staticmethod
     def int_array_to_long(self, array):
