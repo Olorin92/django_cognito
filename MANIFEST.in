@@ -1,0 +1,1 @@
+exclude django_cognito_authentication/local_settings.py

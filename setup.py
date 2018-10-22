@@ -4,11 +4,9 @@ setup(
     name='django_cognito_authentication',
     version='1.0.0',
     packages=find_packages(),
-    url='',
+    url='https://github.com/Olorin92/django_cognito_authentication',
     license='',
     author='Alex Plant',
-    author_email='alex.plant@jana.com.au',
-    maintainer='Alex Plant',
-    maintainer_email="alex.plant@jana.com.au",
-    description='Enables the ability to connect to an AWS pool and perform authentication functions against it',
+    author_email='alex.c.plant@gmail.com',
+    description='Library for allowing AWS Cognito authentication implementation in Django projects'
 )
