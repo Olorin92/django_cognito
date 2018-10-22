@@ -56,6 +56,7 @@ def confirm_forgot_password(request):
     pass
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def sign_up(request):
     try:
@@ -68,6 +69,7 @@ def sign_up(request):
     pass
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def confirm_sign_up(request):
     try:
