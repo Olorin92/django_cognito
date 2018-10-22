@@ -22,7 +22,7 @@ def initiate_auth(request):
 def respond_to_auth_challenge(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
-        result = helpers.respond_to_auth_challenge(request.data)
+        result = helpers.respond_to_auth_challenge(data)
 
         return JsonResponse(result, status=200)
     except CognitoException as ex:
@@ -33,7 +33,8 @@ def respond_to_auth_challenge(request):
 @require_http_methods(['POST'])
 def forgot_password(request):
     try:
-        result = helpers.forgot_password(request.data)
+        data = json.loads(request.body.decode('utf-8'))
+        result = helpers.forgot_password(data)
 
         return JsonResponse(result, status=200)
     except CognitoException as ex:
@@ -44,7 +45,8 @@ def forgot_password(request):
 @require_http_methods(['POST'])
 def confirm_forgot_password(request):
     try:
-        result = helpers.confirm_forgot_password(request.data)
+        data = json.loads(request.body.decode('utf-8'))
+        result = helpers.confirm_forgot_password(data)
 
         return JsonResponse(result, status=200)
     except CognitoException as ex:
@@ -55,7 +57,8 @@ def confirm_forgot_password(request):
 @require_http_methods(['POST'])
 def sign_up(request):
     try:
-        result = helpers.sign_up(request.data)
+        data = json.loads(request.body.decode('utf-8'))
+        result = helpers.sign_up(data)
 
         return JsonResponse(result, status=200)
     except CognitoException as ex:
@@ -66,7 +69,8 @@ def sign_up(request):
 @require_http_methods(['POST'])
 def confirm_sign_up(request):
     try:
-        result = helpers.confirm_sign_up(request.data)
+        data = json.loads(request.body.decode('utf-8'))
+        result = helpers.confirm_sign_up(data)
 
         return JsonResponse(result, status=200)
     except CognitoException as ex:
