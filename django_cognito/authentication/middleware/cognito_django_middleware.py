@@ -1,18 +1,17 @@
 from django.conf import settings
-
-from django_cognito.authentication import AWSAuthMethods
+from django_cognito.authentication.middleware import helpers
 
 
 # This is utilised from normal Django views. Currently used for anything that requires authentication but isn't
 # already utilising rest framework
-class AWS_django_middleware:
+class AWSDjangoMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         # One-time configuration and initialization.
 
     def __call__(self, request):
         # Get the user and a new token if required
-        user, token, refresh_token = AWSAuthMethods.process_request(request)
+        user, token, refresh_token = helpers.process_request(request)
 
         request.user = user
 

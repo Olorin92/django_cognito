@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User, AnonymousUser
+from django_cognito.authentication.cognito.helpers import initiate_auth
+from django_cognito.authentication.middleware import helpers as m_helpers
 
-from django_cognito.authentication import AWSAuthMethods
 
 # This is utilised when doing username and password validation and calling the authenticate method from
 # django.contrib.auth (currently not actually used?)
-class AWS_django_authentication:
+class AWSDjangoAuthentication:
 
     def authenticate(self, request, username=None, password=None):
         # This is where we will extract information about the incoming access token from the user,
@@ -13,13 +14,13 @@ class AWS_django_authentication:
         # TODO: Remove this hackiness. Should only return a user from this method as Django seems to only expect a user
         # and not a tuple with a token
         if username is None:
-            user, _, _ = AWSAuthMethods.process_request(request)
+            user, _, _ = m_helpers.process_request(request)
 
             return user
         else:
             try:
                 # We've received a username and password, do that authentication flow instead
-                result = AWSAuthMethods.initiate_auth(username, "USER_PASSWORD_AUTH", password)
+                result = initiate_auth({"username":username, "password": password, "auth_flow": "USER_PASSWORD_AUTH"})
 
                 return User.objects.get(email=username)
             except Exception as ex:
