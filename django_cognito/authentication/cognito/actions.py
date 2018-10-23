@@ -96,7 +96,10 @@ def confirm_forgot_password(username, code, new_password):
 
 
 def admin_get_user(username):
-    return CognitoClient.client.admin_get_user(UserPoolId=constants.POOL_ID, Username=username)
+    try:
+        return CognitoClient.client.admin_get_user(UserPoolId=constants.POOL_ID, Username=username)
+    except constants.AWS_EXCEPTIONS as ex:
+        raise CognitoException.create_from_exception(ex)
 
 
 def admin_disable_user(username):
@@ -136,10 +139,11 @@ def admin_create_user(username, user_attributes, temporary_password, suppress=Fa
 
 
 def admin_update_user_attributes(username, user_attributes):
-    result = CognitoClient.client.admin_update_user_attributes(UserPoolId=constants.POOL_ID, Username=username,
-                                                               UserAttributes=user_attributes)
-
-    return result
+    try:
+        return CognitoClient.client.admin_update_user_attributes(UserPoolId=constants.POOL_ID, Username=username,
+                                                                 UserAttributes=user_attributes)
+    except constants.AWS_EXCEPTIONS as ex:
+        raise CognitoException.create_from_exception(ex)
 
 
 def resend_confirmation_code(username):

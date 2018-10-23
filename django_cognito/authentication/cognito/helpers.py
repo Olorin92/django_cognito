@@ -83,6 +83,44 @@ def confirm_forgot_password(data, param_mapping=None):
     return actions.confirm_forgot_password(username, code, new_password)
 
 
+def admin_get_user(data, param_mapping=None):
+    try:
+        username = parse_parameter(data, param_mapping, 'username')
+
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.admin_get_user(username)
+
+
+def admin_update_user_attributes(data, param_mapping=None):
+    try:
+        username = parse_parameter(data, param_mapping, 'username')
+        user_attributes = parse_parameter(data, param_mapping, 'user_attributes')
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.admin_update_user_attributes(username, user_attributes)
+
+
+def admin_disable_user(data, param_mapping=None):
+    try:
+        username = parse_parameter(data, param_mapping, 'username')
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.admin_disable_user(username)
+
+
+def admin_delete_user(data, param_mapping=None):
+    try:
+        username = parse_parameter(data, param_mapping, 'username')
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.admin_delete_user(username)
+
+
 def parse_parameter(data, param_mapping, param=None):
     if param_mapping is not None:
         if param in param_mapping:
