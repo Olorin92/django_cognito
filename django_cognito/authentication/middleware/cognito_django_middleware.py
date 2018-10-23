@@ -4,7 +4,7 @@ from django_cognito.authentication.middleware import helpers
 
 # This is utilised from normal Django views. Currently used for anything that requires authentication but isn't
 # already utilising rest framework
-class AWSDjangoMiddleware:
+class AwsDjangoMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         # One-time configuration and initialization.

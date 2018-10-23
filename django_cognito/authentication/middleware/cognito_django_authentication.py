@@ -5,7 +5,7 @@ from django_cognito.authentication.middleware import helpers as m_helpers
 
 # This is utilised when doing username and password validation and calling the authenticate method from
 # django.contrib.auth (currently not actually used?)
-class AWSDjangoAuthentication:
+class AwsDjangoAuthentication:
 
     def authenticate(self, request, username=None, password=None):
         # This is where we will extract information about the incoming access token from the user,

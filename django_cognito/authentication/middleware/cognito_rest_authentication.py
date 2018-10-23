@@ -4,7 +4,7 @@ from django_cognito.authentication.middleware import helpers
 
 # This is utilised by any of the django rest framework views. Currently this is all of the base AWS auth views.
 # We probably want to make those views use the default django library to reduce needless dependencies
-class AWSRestAuthentication(BaseAuthentication):
+class AwsRestAuthentication(BaseAuthentication):
     def authenticate(self, request):
         # This is where we will extract information about the incoming access token from the user,
         # and decide whether or not they are authenticated

@@ -48,11 +48,15 @@ def respond_to_auth_challenge(username, challenge_name, responses, session=None)
 
 def sign_up(username, password, user_attributes, validation_data=None):
     secret_hash = utils.get_cognito_secret_hash(username)
+    kwargs = {"ClientId": constants.CLIENT_ID, "SecretHash": secret_hash,
+              "Username": username, "Password": password,
+              "UserAttributes": user_attributes}
+
+    if validation_data:
+        kwargs['ValidationData'] = validation_data
 
     try:
-        return CognitoClient.client.sign_up(ClientId=constants.CLIENT_ID, SecretHash=secret_hash,
-                                            Username=username, Password=password,
-                                            UserAttributes=user_attributes, ValidationData=validation_data)
+        return CognitoClient.client.sign_up(**kwargs)
 
     except constants.AWS_EXCEPTIONS as ex:
         raise CognitoException.create_from_exception(ex)
@@ -97,6 +101,18 @@ def admin_get_user(username):
 
 def admin_disable_user(username):
     result = CognitoClient.client.admin_disable_user(UserPoolId=constants.POOL_ID, Username=username)
+
+    return result
+
+
+def admin_delete_user(username):
+    result = CognitoClient.client.admin_delete_user(UserPoolId=constants.POOL_ID, Username=username)
+
+    return result
+
+
+def admin_confirm_sign_up(username):
+    result = CognitoClient.client.admin_confirm_sign_up(UserPoolId=constants.POOL_ID, Username=username)
 
     return result
 
