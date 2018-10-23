@@ -13,7 +13,6 @@ from django_cognito.authentication.cognito import constants, actions
 from django_cognito.authentication.utils import PublicKey
 
 
-@staticmethod
 def validate_token(access_token, refresh_token=None):
     try:
         header, payload = decode_token(access_token)
@@ -71,7 +70,6 @@ def validate_token(access_token, refresh_token=None):
         return None, None
 
 
-@staticmethod
 def decode_token(access_token):
     token_parts = access_token.split(".")
 
@@ -83,7 +81,6 @@ def decode_token(access_token):
     return header, payload
 
 
-@staticmethod
 def process_request(request):
     try:
         access_token = request.COOKIES['AccessToken']
