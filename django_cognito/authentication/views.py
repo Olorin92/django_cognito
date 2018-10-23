@@ -16,6 +16,8 @@ def initiate_auth(request):
         return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
+    except ValueError as ex:
+        return JsonResponse({"error": ex.args[0]}, status=400)
 
 
 @require_http_methods(['POST'])
@@ -27,6 +29,8 @@ def respond_to_auth_challenge(request):
         return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
+    except ValueError as ex:
+        return JsonResponse({"error": ex.args[0]}, status=400)
     pass
 
 
@@ -40,6 +44,8 @@ def forgot_password(request):
         return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
+    except ValueError as ex:
+        return JsonResponse({"error": ex.args[0]}, status=400)
     pass
 
 
@@ -53,6 +59,8 @@ def confirm_forgot_password(request):
         return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
+    except ValueError as ex:
+        return JsonResponse({"error": ex.args[0]}, status=400)
     pass
 
 
@@ -66,6 +74,8 @@ def sign_up(request):
         return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
+    except ValueError as ex:
+        return JsonResponse({"error": ex.args[0]}, status=400)
     pass
 
 
@@ -79,4 +89,6 @@ def confirm_sign_up(request):
         return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
+    except ValueError as ex:
+        return JsonResponse({"error": ex.args[0]}, status=400)
     pass
