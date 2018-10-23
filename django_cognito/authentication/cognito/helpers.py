@@ -7,6 +7,9 @@ from django_cognito.authentication.cognito import constants, actions
 BAD_DATA_EXCEPTION = "The required parameters were not passed through in the data dictionary"
 
 
+# TODO: Possibly change some of these methods to just accept one parameter where appropriate (i.e. just a username)
+
+
 def initiate_auth(data, param_mapping=None):
     password = None
 
