@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+from django_cognito import __version__ as version
 
 setup(
     name='django_cognito',
-    version='1.0.0',
+    version=version,
     packages=find_packages(),
     url='https://github.com/Olorin92/django_cognito',
     license='',
