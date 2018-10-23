@@ -13,9 +13,9 @@ def initiate_auth(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.initiate_auth(data)
 
-        return JsonResponse(result, status=200)
+        return JsonResponse(result)
     except CognitoException as ex:
-        return JsonResponse(ex.message, ex.status)
+        return JsonResponse(ex.args[0], status=ex.status)
 
 
 @require_http_methods(['POST'])
@@ -24,9 +24,9 @@ def respond_to_auth_challenge(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.respond_to_auth_challenge(data)
 
-        return JsonResponse(result, status=200)
+        return JsonResponse(result)
     except CognitoException as ex:
-        return JsonResponse(ex.message, ex.status)
+        return JsonResponse(ex.args[0], status=ex.status)
     pass
 
 
@@ -37,9 +37,9 @@ def forgot_password(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.forgot_password(data)
 
-        return JsonResponse(result, status=200)
+        return JsonResponse(result)
     except CognitoException as ex:
-        return JsonResponse(ex.message, ex.status)
+        return JsonResponse(ex.args[0], status=ex.status)
     pass
 
 
@@ -50,9 +50,9 @@ def confirm_forgot_password(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.confirm_forgot_password(data)
 
-        return JsonResponse(result, status=200)
+        return JsonResponse(result)
     except CognitoException as ex:
-        return JsonResponse(ex.message, ex.status)
+        return JsonResponse(ex.args[0], status=ex.status)
     pass
 
 
@@ -63,9 +63,9 @@ def sign_up(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.sign_up(data)
 
-        return JsonResponse(result, status=200)
+        return JsonResponse(result)
     except CognitoException as ex:
-        return JsonResponse(ex.message, ex.status)
+        return JsonResponse(ex.args[0], status=ex.status)
     pass
 
 
@@ -76,7 +76,7 @@ def confirm_sign_up(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.confirm_sign_up(data)
 
-        return JsonResponse(result, status=200)
+        return JsonResponse(result)
     except CognitoException as ex:
-        return JsonResponse(ex.message, ex.status)
+        return JsonResponse(ex.args[0], status=ex.status)
     pass
