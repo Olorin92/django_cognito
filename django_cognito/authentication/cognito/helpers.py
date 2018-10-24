@@ -2,7 +2,10 @@ from django_cognito.authentication.cognito import constants, actions
 
 # Collection of methods intended to make the calling of AWS Cognito methods a bit easier. Each method expects both a
 # data parameter (which will be a dictionary of values) and an optional param_mapping parameter - another dictionary
-# which can be used to override the name of expected values in the data dictionary
+# which can be used to override the name of expected values in the data dictionary.
+#
+# Main use case is when receiving data from a HTTP request - rather than parse it all out individually, just give
+# the data to this method with the right naming/mapping, and it'll handle it for you
 
 BAD_DATA_EXCEPTION = "The required parameters were not passed through in the data dictionary"
 
@@ -11,19 +14,15 @@ BAD_DATA_EXCEPTION = "The required parameters were not passed through in the dat
 
 
 def initiate_auth(data, param_mapping=None):
-    password = None
+    if ("username" in data and "password" in data) or ("username" in param_mapping and "password" in param_mapping):
+        auth_flow = constants.USER_PASSWORD_FLOW
+        username = parse_parameter(data, param_mapping, "username")
+        password = parse_parameter(data, param_mapping, "password")
 
-    try:
-        auth_flow = parse_parameter(data, param_mapping, 'auth_flow')
-        username = parse_parameter(data, param_mapping, 'username')
+        return actions.initiate_auth(username, auth_flow, password)
 
-        if auth_flow == constants.USER_PASSWORD_FLOW:
-            password = parse_parameter(data, param_mapping, 'password')
-
-    except Exception as ex:
-        raise ValueError(BAD_DATA_EXCEPTION)
-
-    return actions.initiate_auth(username, auth_flow, password)
+    else:
+        raise ValueError("Unsupported auth flow")
 
 
 def respond_to_auth_challenge(data, param_mapping=None):
@@ -122,6 +121,22 @@ def admin_delete_user(data, param_mapping=None):
         raise ValueError(BAD_DATA_EXCEPTION)
 
     return actions.admin_delete_user(username)
+
+def admin_create_user(data, param_mapping=None):
+    try:
+        username = parse_parameter(data, param_mapping, 'username')
+        user_attributes = parse_parameter(data, param_mapping, 'user_attributes')
+        temporary_password = parse_parameter(data, param_mapping, 'temporary_password')
+
+        if "suppress" in data or "suppress" in param_mapping:
+            supress = parse_parameter(data, param_mapping, 'suppress')
+
+    except Exception as ex:
+        raise ValueError(BAD_DATA_EXCEPTION)
+
+    return actions.admin_create_user(username, user_attributes, temporary_password)
+
+
 
 
 def parse_parameter(data, param_mapping, param=None):
