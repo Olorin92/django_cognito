@@ -1,10 +1,12 @@
 import hashlib
 import hmac
 import base64
+import json
 import struct
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicNumbers
+from urllib.request import urlopen
 
 from django_cognito.authentication.cognito import constants
 
@@ -39,3 +41,11 @@ def get_cognito_secret_hash(username: str) -> str:
                       digestmod=hashlib.sha256).digest()
 
     return base64.b64encode(digest).decode()
+
+
+def get_public_keys():
+    public_keys_url = urlopen("https://cognito-idp." + constants.POOL_ID.split("_", 1)[0] + ".amazonaws.com/"
+                              + constants.POOL_ID + "/.well-known/jwks.json")
+    public_keys = json.loads(public_keys_url.read().decode('utf-8'))
+
+    return public_keys

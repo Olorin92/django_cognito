@@ -120,14 +120,6 @@ def admin_confirm_sign_up(username):
     return result
 
 
-def get_public_keys():
-    public_keys_url = urlopen("https://cognito-idp." + constants.POOL_ID.split("_", 1)[0] + ".amazonaws.com/"
-                              + constants.POOL_ID + "/.well-known/jwks.json")
-    public_keys = json.loads(public_keys_url.read().decode('utf-8'))
-
-    return public_keys
-
-
 def admin_create_user(username, user_attributes, temporary_password, suppress=False):
     message_action = 'SUPPRESS' if suppress else 'RESEND'
 
