@@ -17,7 +17,6 @@ class PublicKey(object):
         self.modulus = self.base64_to_long(pubkey['n'])
         self.pem = PublicKey.convert(self.exponent, self.modulus)
 
-    @staticmethod
     def int_array_to_long(self, array):
         return int(''.join(['{:02x}'.format(b) for b in array]), 16)
 
