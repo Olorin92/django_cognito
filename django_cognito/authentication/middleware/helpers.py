@@ -6,7 +6,8 @@ import base64
 import datetime
 import json
 import jwt
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 
 from django_cognito.authentication import utils
 from django_cognito.authentication.cognito import constants, actions
@@ -96,14 +97,14 @@ def process_request(request):
                 header, payload = decode_token(access_token)
 
                 try:
-                    user = User.objects.get(username=payload['username'])
+                    user = get_user_model().objects.get(username=payload['username'])
                 except Exception as ex:
                     aws_user = actions.admin_get_user(payload['username'])
 
                     [aws_email] = [att for att in aws_user['UserAttributes'] if att['Name'] == 'email']
                     aws_email = aws_email['Value']
 
-                    user = User.objects.create(username=payload['username'], email=aws_email)
+                    user = get_user_model().objects.create(username=payload['username'], email=aws_email)
                     user.save()
 
             except Exception as ex:
