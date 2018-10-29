@@ -8,7 +8,7 @@ import json
 import jwt
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
-
+from django_cognito import settings
 from django_cognito.authentication import utils
 from django_cognito.authentication.cognito import constants, actions
 from django_cognito.authentication.utils import PublicKey
@@ -26,7 +26,7 @@ def validate_token(access_token, refresh_token=None):
     [matching_key] = [key for key in public_keys['keys'] if key['kid'] == header['kid']]
 
     if matching_key is None:
-        exceptions.AuthenticationFailed("Invalid token public key")
+        raise Exception("Invalid token public key")
     else:
         # Verify signature using the public key for this pool, as defined the the AWS documentation
         decode = jwt.decode(access_token, PublicKey(matching_key).pem, algorithms=[header['alg']],
@@ -38,18 +38,18 @@ def validate_token(access_token, refresh_token=None):
     #
     # Verify that the audience matches the Cognito app ID, as defined by the AWS documentation
     if payload['client_id'] != constants.CLIENT_ID:
-        exceptions.AuthenticationFailed("Invalid token audience")
+        raise Exception("Invalid token audience")
 
     # Verify that the issuer matches the URL for the Cognito user pool, as defined by the AWS documentation
     if payload['iss'] != "https://cognito-idp." + constants.POOL_ID.split("_", 1)[0] + ".amazonaws.com/" \
             + constants.POOL_ID:
-        exceptions.AuthenticationFailed("Invalid token issuer")
+        raise Exception("Invalid token issuer")
 
     # Verify that the token is either not expired, or if expired, that we have a refresh token to refresh it
     if payload['exp'] <= datetime.datetime.timestamp(datetime.datetime.utcnow()):
         if not refresh_token:
             # The current access token is expired and no refresh token was provided, authentication fails
-            raise exceptions.AuthenticationFailed("The access token provided has expired. Please login again.")
+            raise Exception("The access token provided has expired. Please login again.")
         else:
             # This token is expired, potentially check for a refresh token? Return this token in the auth return
             # variable?
@@ -89,16 +89,16 @@ def process_request(request):
 
         if not access_token or not refresh_token:
             # Need to have this to authenticate, error out
-            raise exceptions.AuthenticationFailed("No valid tokens were found in the request")
+            raise Exception("No valid tokens were found in the request")
         else:
+            new_access_token, new_refresh_token = validate_token(access_token, refresh_token)
+
+            header, payload = decode_token(access_token)
+
             try:
-                new_access_token, new_refresh_token = validate_token(access_token, refresh_token)
-
-                header, payload = decode_token(access_token)
-
-                try:
-                    user = get_user_model().objects.get(username=payload['username'])
-                except Exception as ex:
+                user = get_user_model().objects.get(username=payload['username'])
+            except Exception as ex:
+                if settings.AUTO_CREATE_USER:
                     aws_user = actions.admin_get_user(payload['username'])
 
                     user_attributes = {k: v for dict in [{d['Name']: d['Value']} for d in aws_user['UserAttributes']]
@@ -109,9 +109,8 @@ def process_request(request):
                                                            last_name=user_attributes['family_name'])
 
                     user.save()
-
-            except Exception as ex:
-                raise exceptions.AuthenticationFailed(ex)
+                else:
+                    return AnonymousUser, None, None
 
         return user, new_access_token, new_refresh_token
 
