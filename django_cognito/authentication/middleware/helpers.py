@@ -101,10 +101,13 @@ def process_request(request):
                 except Exception as ex:
                     aws_user = actions.admin_get_user(payload['username'])
 
-                    [aws_email] = [att for att in aws_user['UserAttributes'] if att['Name'] == 'email']
-                    aws_email = aws_email['Value']
+                    user_attributes = {k: v for dict in [{d['Name']: d['Value']} for d in aws_user['UserAttributes']]
+                                       for k, v in dict.items()}
 
-                    user = get_user_model().objects.create(username=payload['username'], email=aws_email)
+                    user = get_user_model().objects.create(username=payload['username'], email=user_attributes['email'],
+                                                           first_name=user_attributes['given_name'],
+                                                           last_name=user_attributes['family_name'])
+
                     user.save()
 
             except Exception as ex:
