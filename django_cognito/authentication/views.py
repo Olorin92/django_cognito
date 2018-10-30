@@ -13,7 +13,7 @@ def initiate_auth(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.initiate_auth(data)
 
-        return JsonResponse(result, status=result['ResponseMetadata']['HTTPStatusCode'])
+        return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
     except ValueError as ex:
@@ -41,7 +41,7 @@ def forgot_password(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.forgot_password(data)
 
-        return JsonResponse(result, status=result['ResponseMetadata']['HTTPStatusCode'])
+        return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
     except ValueError as ex:
@@ -56,7 +56,7 @@ def confirm_forgot_password(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.confirm_forgot_password(data)
 
-        return JsonResponse(result, status=result['ResponseMetadata']['HTTPStatusCode'])
+        return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
     except ValueError as ex:
@@ -71,7 +71,7 @@ def sign_up(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.sign_up(data)
 
-        return JsonResponse(result, status=result['ResponseMetadata']['HTTPStatusCode'])
+        return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
     except ValueError as ex:
@@ -86,7 +86,7 @@ def confirm_sign_up(request):
         data = json.loads(request.body.decode('utf-8'))
         result = helpers.confirm_sign_up(data)
 
-        return JsonResponse(result, status=result['ResponseMetadata']['HTTPStatusCode'])
+        return JsonResponse(result)
     except CognitoException as ex:
         return JsonResponse(ex.args[0], status=ex.status)
     except ValueError as ex:
