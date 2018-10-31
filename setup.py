@@ -16,6 +16,6 @@ setup(
         "Django>=1.10.0",
         "djangorestframework==3.8.2",
         "urllib3==1.23",
-        "jwt==1.6.4"
+        "jwt==0.5.4"
     ]
 )
