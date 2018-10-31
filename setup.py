@@ -15,7 +15,7 @@ setup(
         "boto3==1.8.2",
         "botocore==1.11.2",
         "cryptography>=2.3",
-        "Django==1.10.0",
+        "Django>=1.10.0",
         "djangorestframework==3.6.4",
         "idna==2.6",
         "PyJWT==1.6.4",
