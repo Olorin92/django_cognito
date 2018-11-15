@@ -84,8 +84,8 @@ def decode_token(access_token):
 
 def process_request(request):
     try:
-        access_token = request.COOKIES['AccessToken']
-        refresh_token = request.COOKIES['RefreshToken']
+        access_token = request.META['HTTP_ACCESSTOKEN']
+        refresh_token = request.META['HTTP_REFRESHTOKEN']
 
         if not access_token or not refresh_token:
             # Need to have this to authenticate, error out
