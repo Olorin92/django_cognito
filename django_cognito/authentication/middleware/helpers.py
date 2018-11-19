@@ -2,6 +2,8 @@
 #
 # It will either return a new access token if it needed to refresh the existing one, None if the token
 # was validated and didn't need to be refreshed, or raise an Exception if it can't validate the token
+from os import urandom
+
 import base64
 import datetime
 import json
@@ -71,6 +73,13 @@ def validate_token(access_token, refresh_token=None):
         return None, None
 
 
+def generate_csrf():
+    random_bytes = urandom(64)
+    csrf_token = base64.b64encode(random_bytes).decode('utf-8')
+
+    return csrf_token
+
+
 def decode_token(access_token):
     token_parts = access_token.split(".")
 
@@ -83,36 +92,49 @@ def decode_token(access_token):
 
 
 def process_request(request):
+    if settings.USE_CSRF:
+        try:
+            csrf_token_cookie = request.COOKIES.get('csrftoken')
+            csrf_header = request.META['HTTP_CSRFTOKEN']
+
+            if csrf_token_cookie != csrf_header:
+                raise Exception("CSRF Verification failed")
+        except Exception as ex:
+            raise Exception("CSRF verification failed")
+
     try:
         access_token = request.META['HTTP_ACCESSTOKEN']
-        refresh_token = request.META['HTTP_REFRESHTOKEN']
-
-        if not access_token or not refresh_token:
-            # Need to have this to authenticate, error out
-            raise Exception("No valid tokens were found in the request")
-        else:
-            new_access_token, new_refresh_token = validate_token(access_token, refresh_token)
-
-            header, payload = decode_token(access_token)
-
-            try:
-                user = get_user_model().objects.get(username=payload['username'])
-            except Exception as ex:
-                if settings.AUTO_CREATE_USER:
-                    aws_user = actions.admin_get_user(payload['username'])
-
-                    user_attributes = {k: v for dict in [{d['Name']: d['Value']} for d in aws_user['UserAttributes']]
-                                       for k, v in dict.items()}
-
-                    user = get_user_model().objects.create(username=payload['username'], email=user_attributes['email'],
-                                                           first_name=user_attributes['given_name'],
-                                                           last_name=user_attributes['family_name'])
-
-                    user.save()
-                else:
-                    return AnonymousUser, None, None
-
-        return user, new_access_token, new_refresh_token
-
+        try:
+            refresh_token = request.META['HTTP_REFRESHTOKEN']
+        except Exception as ex:
+            # A refresh token doesn't have to be passed in, it's optional to auto renew access token
+            pass
     except Exception as ex:
         return AnonymousUser(), None, None
+
+    if not access_token or not refresh_token:
+        # Need to have this to authenticate, error out
+        raise Exception("No valid tokens were found in the request")
+    else:
+        new_access_token, new_refresh_token = validate_token(access_token, refresh_token)
+
+        header, payload = decode_token(access_token)
+
+        try:
+            user = get_user_model().objects.get(username=payload['username'])
+        except Exception as ex:
+            if settings.AUTO_CREATE_USER:
+                aws_user = actions.admin_get_user(payload['username'])
+
+                user_attributes = {k: v for dict in [{d['Name']: d['Value']} for d in aws_user['UserAttributes']]
+                                   for k, v in dict.items()}
+
+                user = get_user_model().objects.create(username=payload['username'], email=user_attributes['email'],
+                                                       first_name=user_attributes['given_name'],
+                                                       last_name=user_attributes['family_name'])
+
+                user.save()
+            else:
+                return AnonymousUser, None, None
+
+        return user, new_access_token, new_refresh_token
