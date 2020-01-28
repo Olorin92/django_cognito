@@ -20,6 +20,6 @@ setup(
         "idna==2.6",
         "PyJWT==1.6.4",
         "python-dateutil==2.6.1",
-        "urllib3==1.22",
+        "urllib3==1.24.2",
     ]
 )
