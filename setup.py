@@ -16,10 +16,10 @@ setup(
         "botocore==1.11.2",
         "cryptography>=2.3",
         "Django>=1.10.0",
-        "djangorestframework==3.6.4",
+        "djangorestframework==3.11.0",
         "idna==2.6",
         "PyJWT==1.6.4",
         "python-dateutil==2.6.1",
-        "urllib3==1.22",
+        "urllib3>=1.24.2",
     ]
 )
