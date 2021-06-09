@@ -3,7 +3,7 @@ boto3==1.8.2
 botocore==1.11.2
 cffi==1.13.2
 cryptography==2.8
-Django==2.2.9
+Django==2.2.22
 djangorestframework==3.11.0
 docutils==0.16
 idna==2.6
