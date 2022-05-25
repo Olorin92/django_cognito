@@ -9,7 +9,7 @@ docutils==0.16
 idna==2.6
 jmespath==0.9.4
 pycparser==2.19
-PyJWT==1.6.4
+PyJWT==2.4.0
 python-dateutil==2.6.1
 pytz==2019.3
 s3transfer==0.1.13
